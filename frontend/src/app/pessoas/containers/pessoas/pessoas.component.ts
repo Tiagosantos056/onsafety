@@ -63,7 +63,7 @@ export class PessoasComponent implements OnInit {
   onDeletar(pessoa: Pessoa) {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Tem certeza que deseja deletar essa pessoa?',
+      data: 'Tem certeza que deseja deletar essa pessoa?'
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

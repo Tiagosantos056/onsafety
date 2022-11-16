@@ -46,13 +46,10 @@ export class PessoasService {
         first()
       );
   }
-
-
   remove(id: string){
     return this.httpClient.delete(`${this.API}/${id}`)
       .pipe(
         first()
       );
   }
-
 }

@@ -6,24 +6,30 @@
     <form [formGroup]="form" class="min-width">
       <mat-form-field class="full-width">
         <mat-label>Nome Completo:</mat-label>
-        <input matInput placeholder="Nome" formControlName="nome">
+        <input matInput placeholder="Nome" formControlName="nome" #nome />
+        <mat-hint align="end">{{ nome.value.length || 0 }} / 150 </mat-hint>
+        <mat-error *ngIf="form.get('nome')?.invalid">{{getErrorMessage('nome')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>CPF:</mat-label>
-        <input matInput formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00" required>
+        <input matInput formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00">
+        <mat-error *ngIf="form.get('cpf')?.invalid">{{getErrorCpf('cpf')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="min-width">
         <mat-label>Data de Nascimento:</mat-label>
         <input matInput placeholder="00/00/0000" formControlName="dataNascimento" [matDatepicker]="picker" appMaskDate>
+        <mat-error *ngIf="form.get('dataNascimento')?.invalid">{{getErrorMessage('dataNascimento')}}</mat-error>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="full-width">
         <mat-label>E-mail:</mat-label>
-        <input matInput formControlName="email" placeholder="Nome@email.com" required>
+        <input matInput formControlName="email" placeholder="Nome@email.com" #email>
+        <mat-hint align="end">{{ email.value.length || 0 }} / 150 </mat-hint>
+        <mat-error *ngIf="form.get('email')?.invalid">{{getErrorMessage('email')}}</mat-error>
       </mat-form-field>
     </form>
   </mat-card-content>

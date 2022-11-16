@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {PessoasService} from "../services/pessoas.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Location} from "@angular/common";
@@ -17,10 +17,10 @@ export class PessoasFormComponent implements OnInit {
 
   form = this.formBuilder.group({
     _id: [''],
-    nome: ['', this.validaNome],
-    cpf: ['', this.validaCPF],
-    dataNascimento: ['', this.validaDataNascimento],
-    email: ['', this.validaEmail]
+    nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
+    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(15)]],
+    dataNascimento: ['', [Validators.required]],
+    email: ['', [Validators.email, Validators.required]]
   });
 
   constructor(private formBuilder: FormBuilder,
@@ -30,7 +30,6 @@ export class PessoasFormComponent implements OnInit {
               private dateAdapter: DateAdapter<Date>,
               private route: ActivatedRoute) {
     this.dateAdapter.setLocale('pt-BR'); //dd/MM/yyyy
-
   }
 
   ngOnInit(): void {
@@ -49,7 +48,6 @@ export class PessoasFormComponent implements OnInit {
       .subscribe(result => this.onSuccess(), error => {
         this.onError()
       });
-
   }
 
   onCancel() {
@@ -65,21 +63,41 @@ export class PessoasFormComponent implements OnInit {
     this.snackBar.open('Erro ao salvar pessoa.', '', {duration: 3000})
   }
 
-  validaCPF(input: FormControl) {
-    return (input.value ? null : {obrigatorio: true});
+  getErrorMessage(fieldName: string){
+    const field = this.form.get(fieldName);
+
+    if (field?.hasError('required')){
+      return 'Campo obrigatório.';
+    }
+
+    if (field?.hasError('minlength')){
+      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 5;
+      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
+    }
+
+    if (field?.hasError('maxlength')){
+      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 200;
+      return `Tamanho máximo precisa ser de ${requiredLength} caracteres.`;
+    }
+    return 'Campo inválido.'
   }
 
-  validaNome(input: FormControl){
-    return (input.value ? null : {obrigatorio: 'O campo NOME é obrigatório!',});
+  getErrorCpf(fieldCpf: string){
+    const field = this.form.get(fieldCpf);
+
+    if (field?.hasError('required')){
+      return 'Campo obrigatório.';
+    }
+
+    if (field?.hasError('minlength')){
+      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 11;
+      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
+    }
+
+    if (field?.hasError('maxlength')){
+      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 15;
+      return `Tamanho máximo precisa ser de ${requiredLength} caracteres.`;
+    }
+    return 'Campo inválido.'
   }
-
-  validaDataNascimento(input: FormControl){
-    return (input.value ? null : {obrigatorio: 'O campo DATA DE NASCIMENTO é obrigatório!',});
-  }
-
-  validaEmail(input: FormControl){
-    return (input.value ? null : {obrigatorio: 'O campo E-MAIL é obrigatório!',});
-  }
-
-
 }
