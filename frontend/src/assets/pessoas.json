@@ -1,0 +1,5 @@
+[
+  { "_id": "1", "nome": "Tiago", "cpf": "064.495.843-00", "dataNascimento": "04/08/1997", "email": "tiago@gmail.com" },
+  { "_id": "2", "nome": "Fernando", "cpf": "022.695.394-15", "dataNascimento": "25/11/1995", "email": "fernando@gmail.com" },
+  { "_id": "3", "nome": "Bruno", "cpf": "496.435.031-86", "dataNascimento": "10/05/1992", "email": "bruno@gmail.com" }
+]

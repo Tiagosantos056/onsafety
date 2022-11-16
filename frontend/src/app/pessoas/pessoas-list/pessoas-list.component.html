@@ -1,0 +1,49 @@
+<mat-table [dataSource]="pessoas">
+
+  <!-- Nome Column -->
+  <ng-container matColumnDef="nome">
+    <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+    <mat-cell *matCellDef="let pessoa"> {{ pessoa.nome }} </mat-cell>
+  </ng-container>
+
+  <!-- CPF Column -->
+  <ng-container matColumnDef="cpf">
+    <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
+    <mat-cell *matCellDef="let pessoa"> {{ pessoa.cpf | mask: '000.000.000-00' }} </mat-cell>
+  </ng-container>
+
+  <!-- Data Nascimento Column -->
+  <ng-container matColumnDef="dataNascimento">
+    <mat-header-cell *matHeaderCellDef> Data Nascimento </mat-header-cell>
+    <mat-cell *matCellDef="let pessoa"> {{ pessoa.dataNascimento | date: 'dd/MM/yyyy' }} </mat-cell>
+  </ng-container>
+
+  <!-- E-mail Column -->
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef> E-mail </mat-header-cell>
+    <mat-cell *matCellDef="let pessoa"> {{ pessoa.email }}
+      <mat-icon aria-hidden="false" aria-label=""></mat-icon>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef class="action-column-header">
+      <button mat-mini-fab color="accent" aria-label="Adicionar uma pessoa">
+        <mat-icon (click)="onAdd()">add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let pessoa" class="action-column">
+      <button mat-icon-button color="primary" aria-label="Editar pessoa">
+        <mat-icon (click)="onEditar(pessoa)">editar</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" aria-label="Remover pessoa">
+        <mat-icon (click)="onDeletar(pessoa)">delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
+</mat-table>
